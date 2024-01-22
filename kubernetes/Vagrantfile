@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
     apt-mark hold kubelet kubeadm kubectl
 
     swapoff -a
-    sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+    sed -i '/\tswap\t/d' /etc/fstab
 
     cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
@@ -63,7 +63,11 @@ EOF
 
     sysctl --system
 
+    systemctl stop ufw
+    systemctl disable ufw
+
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
   SHELL
 
   # config.ssh.username = "ubuntu"
