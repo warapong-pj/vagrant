@@ -7,7 +7,8 @@
 - vagrant ssh
 
 ### step to initial cluster and setup kubeconfig
-1. sudo kubeadm init --apiserver-advertise-address=$MASTER_NODE_IP --pod-network-cidr=K8S_POD_NETWORK_CIDR --control-plane-endpoint $MASTER_NODE_IP
-2. mkdir -p $HOME/.kube
-3. sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-4. sudo chown $(id -u):$(id -g) $HOME/.kube/config
+1. export MASTER_NODE_IP=xx.xx.xx.xx && export K8S_POD_NETWORK_CIDR=10.244.0.0/16
+2. sudo kubeadm init --apiserver-advertise-address=$MASTER_NODE_IP --pod-network-cidr=$K8S_POD_NETWORK_CIDR --control-plane-endpoint $MASTER_NODE_IP
+3. mkdir -p $HOME/.kube
+4. sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+5. sudo chown $(id -u):$(id -g) $HOME/.kube/config

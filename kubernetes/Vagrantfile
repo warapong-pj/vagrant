@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "hyperv" do |hyperv|
     hyperv.vmname = "Ubuntu"
     hyperv.cpus = "2"
-    hyperv.memory = "2048"
+    hyperv.memory = "4096"
     hyperv.maxmemory = "4096"
     hyperv.enable_enhanced_session_mode = true
   end
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     export OS=xUbuntu_22.04
-    export VERSION=1.27
+    export VERSION=1.28
 
     echo "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
     echo "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
@@ -36,9 +36,9 @@ Vagrant.configure("2") do |config|
     # apt-transport-https may be a dummy package; if so, you can skip that package
     apt-get install -y apt-transport-https ca-certificates curl gpg
 
-    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.27/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
-    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.27/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
 
     apt-get update
     apt-get install -y kubelet kubeadm kubectl
@@ -47,7 +47,7 @@ Vagrant.configure("2") do |config|
     swapoff -a
     sed -i '/\tswap\t/d' /etc/fstab
 
-    cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+    cat <<EOF | tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
 EOF
