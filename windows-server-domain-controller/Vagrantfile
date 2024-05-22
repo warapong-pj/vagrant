@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "cdaf/WindowsServerDC"
+
+  config.vm.hostname = 'dc1'
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+
+  config.vm.provider "hyperv" do |hyperv|
+    hyperv.vmname = "dc1"
+    hyperv.cpus = "2"
+    hyperv.memory = "2048"
+    hyperv.maxmemory = "2048"
+    hyperv.enable_enhanced_session_mode = true
+  end
+
+  config.vm.network "public_network", bridge: "External Switch"
+end

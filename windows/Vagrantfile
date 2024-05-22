@@ -1,0 +1,18 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "StefanScherer/windows_10"
+
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+
+  config.vm.provider "hyperv" do |hyperv|
+    hyperv.vmname = "windows"
+    hyperv.cpus = "1"
+    hyperv.memory = "2048"
+    hyperv.maxmemory = "2048"
+    hyperv.enable_enhanced_session_mode = true
+  end
+
+  config.vm.network "public_network", bridge: "External Switch"
+end
