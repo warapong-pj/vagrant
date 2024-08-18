@@ -1,4 +1,4 @@
-# kubernetes
+# kali linux
 
 ### step to deploy
 - vagrant up
