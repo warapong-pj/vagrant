@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2110"
+
+  config.vm.hostname = 'juice-shop'
+
+  config.vm.provider "hyperv" do |hyperv|
+    hyperv.vmname = "juice-shop"
+    hyperv.cpus = "2"
+    hyperv.memory = "2048"
+    hyperv.maxmemory = "2048"
+    hyperv.enable_enhanced_session_mode = true
+  end
+
+  config.vm.provision "file", source: "./default.conf", destination: "/tmp/juice-shop/default.conf"
+  config.vm.provision :shell, path: "bootstrap.sh"
+
+  config.vm.network "public_network", bridge: "External Switch"
+end
